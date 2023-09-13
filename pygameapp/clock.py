@@ -3,23 +3,23 @@ import pygame as pg
 from functools import cached_property
 
 class ClockPGA:
+    FPS_ALLOWED = frozenset({30, 60})
+
     def __init__(self, fps: int = 60):
+        self.assert_fps(fps)
         self.fps = fps
         self.__pg_clock = pg.time.Clock()
-    
-    # TODO: Setter para fps, que revise que esté dentro de los permitidos.
     
     @property
     def pg_clock(self) -> pg.time.Clock:
         return self.__pg_clock
-
-    @cached_property
-    def FPS_ALLOWED(self) -> tuple:
-        return (30, 60)
     
     def tick(self) -> int:
         return self.pg_clock.tick(self.fps)     # Esto retorna el número de ns que tardó en ejecutar?
 
-    def change_fps(self, new_fps: int) -> None:
-        assert new_fps in self.FPS_ALLOWED, f"FPS inválido. Permitidos: {self.FPS_ALLOWED}"
+    def set_fps(self, new_fps: int) -> None:
+        self.assert_fps(new_fps)
         self.fps = new_fps
+    
+    def assert_fps(self, fps: int) -> None:
+        assert fps in self.FPS_ALLOWED, f"fps inválido: {fps}"
