@@ -10,15 +10,15 @@ from typing import Dict, Callable, Any, NewType
 
 from pygameapp.clock import ClockPGA
 
-SceneName = NewType("scene_name", str)
+from typings import SceneName
 
-
-
+from clock import ClockPGA
 
 
 class Scene(ABC):
+    clock = ClockPGA(60)
     """ Abstract class para `Scene` de pygame."""
-    def __init__(self, name: str):
+    def __init__(self, name: SceneName):
         self.__name = name
         self._is_running = False
 
@@ -32,36 +32,32 @@ class Scene(ABC):
 
     @abstractmethod
     def __enter__(self):
-        """ Se ejecuta al entrar en la escena."""
-        pass
+        """ Se ejecuta al `entrar` en la escena. """
+        ...
     
     @abstractmethod
     def __exit__(self, exc_type, exc_value, traceback):
-        """ Se ejecuta al salir de la escena."""
-        pass
+        """ Se ejecuta al `salir` de la escena."""
+        ...
     
     @abstractmethod
-    def main(self):
+    def main(self) -> None:
         """ Se ejecuta en cada iteración."""
-        pass
+        ...
     
     def start(self) -> None:
         self._is_running = True
 
     def stop(self) -> None:
-        """ Ejecuta hasta la próxima iteración."""
         self._is_running = False
-    
-    @staticmethod
-    def load(name: str) -> Scene:
-        # TODO: Ver como usar el `partial` de functools, para no repetir atributos.
-        return Scene(name=name)
 
     def main_loop(self):
-        """ Loop principal de la escena."""
+        """ Loop principal de la escena.
+        - TODO: Ver de retornar un objeto que guarde el código de respuesta."""
         with self:
             while self.is_running:
                 self.main()
+                self.clock.tick()
 
 
 class DictScenes(Dict[SceneName, Scene]):
