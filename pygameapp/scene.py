@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 import pygame as pg
 from pygame import QUIT
 
+from functools import cached_property
 
 from typing import Dict, Callable, Any, NewType
 
@@ -12,14 +13,6 @@ from pygameapp.clock import ClockPGA
 SceneName = NewType("scene_name", str)
 
 
-
-#def scene_wrap(fn_main_loop: Callable) -> Callable:
-#    """ Wrapper para la función main de la escena. Ver como adaptar luego."""
-#    def wrapper(self, *args, **kwargs) -> Any:
-#        result = fn_main_loop(self, *args, **kwargs)
-#        self.clock.tick()
-#        return result
-#    return wrapper
 
 
 
@@ -73,14 +66,22 @@ class Scene(ABC):
 
 class DictScenes(Dict[SceneName, Scene]):
     """ `current_name` (str): """
-    def __init__(self, fps: int = 60):
+    def __init__(self, first_scene: str, fps: int = 60):
         super().__init__()
-        self.current_name = "primera"
+        self._current_name = first_scene
         self.clock = ClockPGA(fps=fps)
+    
+    @cached_property
+    def SCENES_PERMITIDAS(self) -> tuple[str]:
+        return ("test_scene", "sarasa")
+
+    @property
+    def current_name(self) -> SceneName:
+        return self._current_name
 
     @property
     def current(self) -> Scene:
-        return super().__getitem__(self.current_name)
+        return super().__getitem__(self._current_name)
     
     def __setitem__(self, scene_name: SceneName, scene: Scene) -> None:
         assert not self.__contains__(scene)
@@ -94,8 +95,27 @@ class DictScenes(Dict[SceneName, Scene]):
         raise Exception("Key inválida.")
 
     def add_scene(self, scene: Scene) -> None:
+        """ TODO: Podría ser paralelo."""
         assert isinstance(scene, Scene)
+        self.assert_scene(scene.name)
         super().__setitem__(scene.name, scene)
+    
+    def change_scene(self, new_scene_name: SceneName) -> None:
+        self.assert_scene(new_scene_name)
+        self._current_name = new_scene_name
+    
+    def assert_scene(self, scene_name) -> None:
+        """ TODO: Eventualmente podría ser una lista, y que sea varabiale."""
+        assert scene_name in self.SCENES_PERMITIDAS, "Scene no está dentro de las permitidas."
+
+
+class Scenes(DictScenes):
+    pass
+
+
+class TestScene(Scene):
+    def __init__(self):
+        pass
 
 
 class SpecificScenes(DictScenes):
@@ -112,3 +132,15 @@ class SpecificScenes(DictScenes):
 #    información de la escena. Y se podría volver,sería como una especie de 'cache'.
 #    - TODO: También recordar como definir el __getitem__ y __setitem__, que cree las escenas.
 #    """
+
+
+
+
+
+#def scene_wrap(fn_main_loop: Callable) -> Callable:
+#    """ Wrapper para la función main de la escena. Ver como adaptar luego."""
+#    def wrapper(self, *args, **kwargs) -> Any:
+#        result = fn_main_loop(self, *args, **kwargs)
+#        self.clock.tick()
+#        return result
+#    return wrapper
