@@ -1,8 +1,8 @@
 # EmolgApp
 
 # Notas:
-- Ver como cambiar de `Scene` de forma limpia.
 - Ver como puedo plotear los botones y demas con un `zorder`.
+- Hacer una forma de guardado de la escena, y carga. Ver cual es la mejor forma, quizás en `tmp`.
 
 ### Objetivo
 - Crear una app full python para el streaming de Rodri [@terremotoparatodos](https://www.twitch.tv/terremotoparatodos)
