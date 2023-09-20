@@ -1,26 +1,30 @@
+from abc import ABC, abstractmethod
+from pygameapp.window import Window
+
 import pygame as pg
 
-from pygameapp.scene import Scene, SpecificScenes
+from emolgapp.scenes import MainMenu
+from pygameapp.app import PyGameApp
+
+import pygame as pg
 
 
-class PyGameApp:
-    def __init__(self, scenes: SpecificScenes, app_name: str):
-        pg.init()
-        pg.display.set_caption(app_name)
-        self.screen = pg.display.set_mode((960, 540))
-        
-        self.scenes = scenes
 
+class EmolgApp(PyGameApp):
+    def __init__(self, app_name: str, resolution: tuple[int, int]):
+        super().__init__(app_name, resolution)
+    
     def run_app(self) -> None:
-        """ Ejecuta el método main de `scenes`."""
-        self.scenes.main()
+        scene = MainMenu()
+        #while self.is_running:
+        #    scene.main_loop()
+        scene.main_loop()
+    
 
-_scenes = SpecificScenes(fps=60)
-_scenes.add_scene(Scene("primera"))
 
-pgapp = PyGameApp(
-    scenes = _scenes,
-    app_name = "EmolgApp"
+pgapp = EmolgApp(
+    "EmolgApp",
+    (800, 600)
 )
 
 pgapp.run_app()

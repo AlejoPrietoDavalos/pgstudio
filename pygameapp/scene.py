@@ -6,21 +6,22 @@ from pygame import QUIT
 
 from functools import cached_property
 
-from typing import Dict, Callable, Any, NewType
-
 from pygameapp.clock import ClockPGA
+from pygameapp.window import Window
+from pygameapp.ui.btn import BtnsScene
 
-from typings import SceneName
+from typing import Dict, Callable, Any, NewType
+from pygameapp.typings import SceneName
 
-from clock import ClockPGA
 
 
-class Scene(ABC):
-    clock = ClockPGA(60)
+class Scene(Window, ABC):
+    clock = pg.time.Clock()     # ClockPGA(60)
     """ Abstract class para `Scene` de pygame."""
     def __init__(self, name: SceneName):
         self.__name = name
         self._is_running = False
+        self.btns = BtnsScene()
 
     @property
     def name(self) -> SceneName:
@@ -33,7 +34,7 @@ class Scene(ABC):
     @abstractmethod
     def __enter__(self):
         """ Se ejecuta al `entrar` en la escena. """
-        ...
+        self.start()
     
     @abstractmethod
     def __exit__(self, exc_type, exc_value, traceback):
@@ -57,7 +58,29 @@ class Scene(ABC):
         with self:
             while self.is_running:
                 self.main()
-                self.clock.tick()
+
+                self.clock.tick(60)     # FIXME: Permitir otros `fps`.
+                pg.display.update()
+                self.win.fill("black")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class DictScenes(Dict[SceneName, Scene]):
@@ -109,19 +132,8 @@ class Scenes(DictScenes):
     pass
 
 
-class TestScene(Scene):
-    def __init__(self):
-        pass
 
 
-class SpecificScenes(DictScenes):
-    def __init__(self, fps):
-        super().__init__(fps)
-    
-    def main(self):
-        while self.current.run:
-            self.current.main()
-            self.clock.tick()
 
 #    """
 #    - TODO: Si no deleteo la Scena como key-value, seestá guardando la

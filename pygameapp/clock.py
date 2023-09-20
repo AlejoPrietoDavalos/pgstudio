@@ -1,6 +1,5 @@
 import pygame as pg
 
-from functools import cached_property
 
 class ClockPGA:
     FPS_ALLOWED = frozenset({30, 60})
