@@ -8,7 +8,8 @@ from functools import cached_property
 
 from pygameapp.clock import ClockPGA
 from pygameapp.window import Window
-from pygameapp.ui.btn import BtnsScene
+from pygameapp.ui.widget import BtnsScene
+
 
 from typing import Dict, Callable, Any, NewType
 from pygameapp.typings import SceneName
@@ -17,6 +18,7 @@ from pygameapp.typings import SceneName
 
 class Scene(Window, ABC):
     clock = pg.time.Clock()     # ClockPGA(60)
+    fps = 60
     """ Abstract class para `Scene` de pygame."""
     def __init__(self, name: SceneName):
         self.__name = name
@@ -46,6 +48,11 @@ class Scene(Window, ABC):
         """ Se ejecuta en cada iteración."""
         ...
     
+    @abstractmethod
+    def fill(self) -> None:
+        """ Como rellenar el fondo. Por default se pinta de negro."""
+        self.win.fill("black")
+
     def start(self) -> None:
         self._is_running = True
 
@@ -59,9 +66,9 @@ class Scene(Window, ABC):
             while self.is_running:
                 self.main()
 
-                self.clock.tick(60)     # FIXME: Permitir otros `fps`.
+                self.clock.tick(self.fps)   # TODO: Eventualmente estará envuelta en otra clase.
                 pg.display.update()
-                self.win.fill("black")
+                self.fill()
 
 
 
