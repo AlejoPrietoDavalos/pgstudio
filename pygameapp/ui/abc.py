@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pygameapp.window import Window
 
 import pygame as pg
@@ -8,18 +10,24 @@ import attr
 from attr.validators import instance_of
 
 from typing import NewType
-BBoxTuple = NewType("(x,y,w,h)", tuple[int,int,int,int])
+BBoxList = NewType("[x,y,w,h]", list[int,int,int,int])
 
-@attr.s
-class BBox:
-    x: int = attr.ib(validator=instance_of(int))
-    y: int = attr.ib(validator=instance_of(int))
-    w: int = attr.ib(validator=instance_of(int))
-    h: int = attr.ib(validator=instance_of(int))
 
+class BBox(ABC):
+    def __init__(self, bbox: BBoxList):
+        assert isinstance(bbox, list) and len(bbox)==4 \
+            and all(isinstance(c, int) for c in bbox)
+        self.bbox = bbox
+    
     @property
-    def bbox(self) -> BBoxTuple:     # TODO: Tipar.
-        return (self.x, self.y, self.w, self.h)
+    def x(self) -> int: return self.bbox[0]
+    @property
+    def y(self) -> int: return self.bbox[1]
+    @property
+    def w(self) -> int: return self.bbox[2]
+    @property
+    def h(self) -> int: return self.bbox[3]
+
 
 
 class Drawable(Window, ABC):
@@ -30,10 +38,15 @@ class Drawable(Window, ABC):
         ...
 
 
-@attr.s
 class BoxDrawable(BBox, Drawable):
-    color_fill: tuple[int, int, int] = attr.ib(validator=instance_of(tuple))    # FIXME: Chequear 3 ints.
-
+    # FIXME: Chequear 3 ints.
+    def __init__(self, bbox: BBoxList, color_fill: tuple[int, int, int]):
+        super().__init__(bbox)
+        self.color_fill = color_fill
+    
     def draw(self) -> None:
         pg.draw.rect(self.win, self.color_fill, self.bbox)
-
+    
+    def move(self, bbox_delta: BBoxList) -> None:
+        self.bbox = [c+c_delta for c, c_delta in zip(self.bbox, bbox_delta)]
+        
