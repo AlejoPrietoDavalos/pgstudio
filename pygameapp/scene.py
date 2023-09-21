@@ -44,28 +44,34 @@ class Scene(Window, ABC):
         ...
     
     @abstractmethod
+    def fill(self) -> None:
+        """ Como rellenar el fondo. Por default se pinta de negro."""
+        self.win.fill("black")
+    
+    @abstractmethod
+    def events(self) -> None:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                self.stop()
+    
+    @abstractmethod
     def main(self) -> None:
         """ Se ejecuta en cada iteración."""
         ...
     
-    @abstractmethod
-    def fill(self) -> None:
-        """ Como rellenar el fondo. Por default se pinta de negro."""
-        self.win.fill("black")
-
     def start(self) -> None:
         self._is_running = True
 
     def stop(self) -> None:
         self._is_running = False
 
-    def main_loop(self):
+    def main_loop(self) -> None:
         """ Loop principal de la escena.
         - TODO: Ver de retornar un objeto que guarde el código de respuesta."""
         with self:
             while self.is_running:
                 self.main()
-
+                self.events()
                 self.clock.tick(self.fps)   # TODO: Eventualmente estará envuelta en otra clase.
                 pg.display.update()
                 self.fill()
