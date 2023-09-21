@@ -2,7 +2,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 
 import pygame as pg
-from pygame import QUIT
+from pygame.event import Event
 
 from functools import cached_property
 
@@ -11,7 +11,7 @@ from pygameapp.window import Window
 from pygameapp.ui.widget import BtnsScene
 
 
-from typing import Dict, Callable, Any, NewType
+from typing import Dict, List
 from pygameapp.typings import SceneName
 
 
@@ -50,6 +50,12 @@ class Scene(Window, ABC):
     
     @abstractmethod
     def events(self) -> None:
+        """
+        - TODO: Podría ser que cada objeto que interactúe con un evento
+        tenga una forma rápida de acceder a los eventos que se dieron, quizás
+        con un diccionario puede ser bueno hacerlo.
+        - FIXME: Quizas se podría agregar que el evento sea pasado por default a la función main.
+        """
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.stop()
