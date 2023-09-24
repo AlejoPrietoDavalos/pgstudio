@@ -6,17 +6,28 @@ from pygame.event import Event
 
 from functools import cached_property
 
-from pygameapp.clock import ClockPGA
-from pygameapp.window import Window
-from pygameapp.ui.widget import BtnsScene
+from pgstudio.clock import ClockPGA
+from pgstudio.window import Window
+from pgstudio.ui.widget import BtnsScene
 
 
 from typing import Dict, List
-from pygameapp.typings import SceneName
+from pgstudio.typings import SceneName
 
 
 
 class Scene(Window, ABC):
+    """
+    Clase abstracta para el manejo de `Scenes`.
+
+    Implementar:
+    ------------
+    - `__enter__`: Se ejecuta al entrar en la escena.
+    - `__exit__`: Se ejecuta al salir de la escena.
+    - `fill`: Se ejecuta en cada iteración para rellenar el fondo.
+    - FIXME `events`: Revisa los eventos.
+    - `main`: Loop principal de la escena.
+    """
     clock = pg.time.Clock()     # ClockPGA(60)
     fps = 60
     """ Abstract class para `Scene` de pygame."""

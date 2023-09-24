@@ -1,5 +1,5 @@
-from pygameapp.scene import Scene
-from pygameapp.ui.abc import BoxDrawable, BoxPrinter
+from pgstudio.scene import Scene
+from pgstudio.ui.abc import BoxDrawable, BoxPrinter
 
 import pygame as pg
 
@@ -20,15 +20,14 @@ class MainMenu(Scene):
         #return super().__exit__(exc_type, exc_value, traceback)
         pass
     
-    def main(self) -> None:
-        self.btn.move([2,0,-1,1])
-        self.btn.draw()
-
-        #self.printer.draw()
-        self.printer.on_click()
-
     def fill(self):
         super().fill()
     
     def events(self):
         super().events()
+    
+    def main(self) -> None:
+        self.btn.move([2,0,-1,1])
+        self.btn.draw()
+
+        self.printer.on_click()

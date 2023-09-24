@@ -3,6 +3,8 @@ import pygame as pg
 import attr
 from attr import validators
 
+from abc import ABC, abstractmethod
+
 from typing import Tuple
 
 @attr.s
@@ -21,6 +23,12 @@ class PgMouse:
 
 
 
-class PgControls:
+class CtrlsBase(ABC):
+    """ Ver bien como conviene hacer esto."""
     def __init__(self):
         self.mouse = PgMouse()
+
+    @abstractmethod
+    def update(self):
+        """ Actualiza los controles que fueron pulsados."""
+        ...

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from pygameapp.window import Window
+from pgstudio.window import Window
 import pygame as pg
 
 class PyGameApp(ABC):

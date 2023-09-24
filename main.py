@@ -1,10 +1,7 @@
-from abc import ABC, abstractmethod
-from pygameapp.window import Window
-
 import pygame as pg
 
-from emolgapp.scenes import MainMenu
-from pygameapp.app import PyGameApp
+from emolgapp.scenes.main_menu import MainMenu
+from pgstudio.app import PyGameApp
 
 import pygame as pg
 

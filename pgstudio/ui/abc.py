@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pygameapp.window import Window
+from pgstudio.window import Window
 
 import pygame as pg
 
@@ -39,7 +39,7 @@ class Clickable(Drawable, ABC):
         """ True si el mouse se encuentra encima del objeto."""
         ...
 
-from pygame.cursors import Cursor
+
 class BBox(ABC):
     def __init__(self, bbox: BBoxList):
         assert isinstance(bbox, list) and len(bbox)==4 \

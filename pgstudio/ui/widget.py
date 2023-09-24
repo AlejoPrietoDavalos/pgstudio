@@ -1,4 +1,4 @@
-from pygameapp.ui.abc import Drawable
+from pgstudio.ui.abc import Drawable
 
 from abc import ABC, abstractmethod
 
