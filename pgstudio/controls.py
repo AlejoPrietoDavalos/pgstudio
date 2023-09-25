@@ -1,32 +1,52 @@
-import pygame as pg
+from pgstudio.geometry.datastore import Point, XY_Tuple
 
-import attr
-from attr import validators
+import pygame as pg
 
 from abc import ABC, abstractmethod
 
 from typing import Tuple
 
-@attr.s
-class PgMouse:
-    x: int = attr.ib(default=0, validator=validators.instance_of(int))
-    y: int = attr.ib(default=0, validator=validators.instance_of(int))
+class MousePos(Point):
+    def __init__(self, xy: XY_Tuple):
+        x, y = xy
+        super().__init__(x=x, y=y)
+    
+    def update(self) -> None:
+        """ Recalcula la posición actual del mouse."""
+        self.x, self.y = self._get_mouse_pos()
+
+    @staticmethod
+    def _get_mouse_pos() -> XY_Tuple:
+        return pg.mouse.get_pos()
+
+class Mouse:
+    """ """
+    _instance = None
+    _instanciated = False
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(Mouse, cls).__new__(cls)
+        return cls._instance
+    
+    def __init__(self):
+        if not self._instanciated:
+            self._instanciated = True
+            self.__pos = MousePos(x=0, y=0)
 
     @property
-    def xy(self) -> Tuple[int, int]:
-        return self.x, self.y
-    
-    def update_xy(self) -> None:
-        """ Actualiza la posición."""
-        self.x, self.y = pg.mouse.get_pos()
+    def pos(self) -> MousePos: return self.__pos
+    @property
+    def xy(self) -> XY_Tuple: return self.pos.xy
+
+    def update_pos(self) -> None:
+        self.pos.update()
 
 
 
 
 class CtrlsBase(ABC):
-    """ Ver bien como conviene hacer esto."""
     def __init__(self):
-        self.mouse = PgMouse()
+        self.mouse = Mouse()
 
     @abstractmethod
     def update(self):

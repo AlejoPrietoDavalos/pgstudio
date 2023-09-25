@@ -6,8 +6,6 @@ import pygame as pg
 
 from abc import ABC, abstractmethod, abstractproperty
 
-import attr
-from attr.validators import instance_of
 
 from typing import NewType
 BBoxList = NewType("[x,y,w,h]", list[int,int,int,int])

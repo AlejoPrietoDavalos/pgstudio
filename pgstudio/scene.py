@@ -11,10 +11,10 @@ from pgstudio.window import Window
 from pgstudio.ui.widget import BtnsScene
 
 
-from typing import Dict, List
-from pgstudio.typings import SceneName
+from typing import NewType, Dict, List
 
 
+SceneName = NewType("scene_name", str)
 
 class Scene(Window, ABC):
     """
