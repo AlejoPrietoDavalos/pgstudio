@@ -17,7 +17,6 @@ class MainMenu(Scene):
         self.btns
     
     def __exit__(self, exc_type, exc_value, traceback):
-        #return super().__exit__(exc_type, exc_value, traceback)
         pass
     
     def fill(self):

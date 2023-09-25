@@ -8,8 +8,7 @@ from typing import Tuple
 
 class MousePos(Point):
     def __init__(self, xy: XY_Tuple):
-        x, y = xy
-        super().__init__(x=x, y=y)
+        super().__init__(xy=xy)
     
     def update(self) -> None:
         """ Recalcula la posición actual del mouse."""

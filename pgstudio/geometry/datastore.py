@@ -1,12 +1,16 @@
 """ Geometrías para almacenar datos geométricos."""
 from __future__ import annotations
 
-from pydantic import BaseModel, NonNegativeInt, validator
+from pydantic import BaseModel, NonNegativeInt, field_validator, Field
 from multipledispatch import dispatch
 
-from collections.abc import MutableSequence, Iterable
+from collections.abc import Iterator, MutableSequence, Iterable
+#from abc import ABC, abstractmethod
 
-from typing import NewType, Tuple, List, SupportsIndex, NamedTuple, ClassVar
+from typing import (
+    NewType, Tuple, List, SupportsIndex,
+    NamedTuple, ClassVar, Union
+)
 
 #----------Typings----------
 Coord = NewType("coord", NonNegativeInt)
@@ -16,13 +20,20 @@ CoordZ = NewType("coord_z", Coord)
 XY_Tuple = NewType("xy_tuple", Tuple[CoordX, CoordY])
 XY_ListOfTuples = NewType("xy_list_of_tuples", List[XY_Tuple])
 
-def assert_xy(xy: XY_Tuple) -> None:
-    assert isinstance(xy, tuple) and len(xy)==2, "xy es una tupla de 2 coordenadas."
-    assert all(isinstance(_c, int) and _c>=0 for _c in xy), "xy es entero positivo."
 
-def assert_xy_list(xy_list: XY_List) -> None:
-    assert isinstance(xy_list, list) and \
-       all(isinstance(xy, tuple) for xy in xy_list)
+def is_xy(xy: XY_Tuple) -> bool:
+    return isinstance(xy, tuple) and len(xy)==2 and \
+       all(isinstance(c, int) for c in xy)
+
+def is_point(point: Point) -> bool:
+    return isinstance(point, Point)
+
+def assert_xy(xy: XY_Tuple) -> None:
+    assert is_xy(xy)
+
+def assert_xy_list_of_tuples(xy_list_of_tuples: XY_ListOfTuples) -> None:
+    assert isinstance(xy_list_of_tuples, list)
+    assert all(is_xy(xy) for xy in xy_list_of_tuples)
 
 
 
@@ -30,6 +41,7 @@ class CoordXY(BaseModel):
     """
     - TODO: Ver si podría implementarse esto con numpy. Sería interesante.
     - FIXME: Ver como se puede encapsular el assert del xy.
+    - FIXME: Ver como puedo hacer para que `xy` sea serializado y checkeado todo encapsulado.
     """
     xy: XY_Tuple
 
@@ -42,52 +54,77 @@ class CoordXY(BaseModel):
         assert_xy(xy)
         self.xy = xy
     
+    def __eq__(self, other: Point) -> bool:
+        return self.xy == other.xy
     #def __add__(self, other: CoordXY) -> CoordXY:
     #TODO: todas las operaciones
 
 
 
 class Point(CoordXY):
-    pass
+    @staticmethod
+    def serial(p: Point | XY_Tuple) -> Point:
+        if is_point(p):
+            return p
+        elif is_xy(p):
+            return Point.from_xy(p)
+        else:
+            raise TypeError("Tipo incorrecto para `Point`.")
+    
+    @staticmethod
+    def from_xy(xy: XY_Tuple) -> Point:
+        return Point(xy=xy)
 
 
 
 # typing
-XY_List = NewType("xy_list", List[CoordXY])
 PList = NewType("List[Point]", List[Point])
 
 class PointList(MutableSequence, BaseModel):
-    p_list: PList
+    """
+    Lista de puntos, se comporta igual que una lista, con el agregado
+    que solo puede almacenar objetos de tipo `Point`.
+    - FIXME: Ver una manera copada de serializar los point que entran en los metodos.
+    - FIXME: Ver también la referencia a los objetos, si se copian o no.
+    """
+    data: PList = Field(frozen=True)
+    
+    #@field_validator('data', pre=True, each_item=True)
+    #def _point_serializer(cls, point: Point | XY_Tuple) -> Point:
+    #    return Point.serial(point)
+    
+    
+    ########## Modify Points Stored ##########
+    def clear(self) -> None: return self.data.clear()
 
-    @staticmethod
-    def from_xy_list(xy_list: XY_List) -> PointList:
-        assert_xy_list(xy_list=xy_list)
-        return PointList(p_list=[Point.from_xy(xy) for xy in xy_list])
+    def pop(self, index: SupportsIndex) -> Point:
+        return self.data.pop(index)
+
+    def insert(self, index: SupportsIndex, point: Point | XY_Tuple) -> None:
+        self.data.insert(index, Point.serial(point))
 
     def __getitem__(self, index: SupportsIndex | slice) -> Point | PList:
-        return self.p_list.__getitem__(index)
+        return self.data.__getitem__(index)
 
+    @dispatch(SupportsIndex, tuple)
+    def __setitem__(self, index: SupportsIndex, xy: XY_Tuple) -> None:
+        self.data.__setitem__(index, Point.from_xy(xy))
+    
     @dispatch(SupportsIndex, Point)
     def __setitem__(self, index: SupportsIndex, point: Point) -> None:
-        self.p_list.__setitem__(index, point)
-    
+        self.data.__setitem__(index, point)
+
     @dispatch(slice, Iterable)
     def __setitem__(self, index: slice, p_list: Iterable) -> None:
-        assert all(isinstance(p, Point) for p in p_list)
-        self.p_list.__setitem__(index, p_list)
-    
-    def insert(self, index: SupportsIndex, point: Point) -> None:
-        assert isinstance(point, Point)
-        self.p_list.insert(index, point)
-    
-    def __len__(self) -> int:
-        return len(self.p_list)
-    
+        self.data.__setitem__(index, [Point.serial(p) for p in p_list])
+    ########## Modify Points Stored ##########
+
+
+    def __len__(self) -> int: return self.data.__len__()
+    def __str__(self) -> str: return self.data.__str__()
+    def __repr__(self) -> str: return self.data.__repr__()
     def __delitem__(self, index: SupportsIndex | slice) -> None:
-        del self.p_list[index]
-    
-    def __repr__(self) -> str:
-        return repr(self.p_list)
+        self.data.__delitem__(index)
 
 
 
