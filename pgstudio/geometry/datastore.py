@@ -1,4 +1,6 @@
-""" Geometrías para almacenar datos geométricos."""
+""" Geometrías para almacenar datos geométricos.
+- TODO: Pasar todo a numpy, y ver si funciona en pygame.
+"""
 from __future__ import annotations
 from pgstudio.geometry.abc import GeomBase, Vector
 
