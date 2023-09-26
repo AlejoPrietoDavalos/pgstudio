@@ -3,6 +3,13 @@ from abc import ABC, abstractmethod
 from pgstudio.window import Window
 import pygame as pg
 
+
+#from enum import Enum
+#class StateApp(Enum):
+#    IS_RUNNING
+#    PLAYING
+
+
 class PyGameApp(ABC):
     def __init__(self, app_name: str, resolution: tuple[int, int]):
         pg.init()
@@ -11,9 +18,9 @@ class PyGameApp(ABC):
         self._is_running = True
     
     @property
-    def is_running(self) -> bool:
-        return self._is_running
+    def is_running(self) -> bool: return self._is_running
     
     @abstractmethod
     def run_app(self) -> None:
+        """ TODO: Poner docstring."""
         ...

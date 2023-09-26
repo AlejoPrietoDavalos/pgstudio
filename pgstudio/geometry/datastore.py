@@ -2,17 +2,9 @@
 - TODO: Pasar todo a numpy, y ver si funciona en pygame.
 """
 from __future__ import annotations
-from pgstudio.geometry.abc import GeomBase, Vector
+from pgstudio.geometry.abc import GeomBase, VectorAux
 
-from pydantic import BaseModel, NonNegativeInt, validator, Field
-from multipledispatch import dispatch
-
-from collections.abc import Iterator, MutableSequence, Iterable
-from abc import ABC, abstractmethod
-
-from typing import (
-    NewType, Tuple, List, SupportsIndex,
-    NamedTuple, ClassVar, Union)
+from pydantic import BaseModel, Field
 
 from pgstudio.geometry.typings import (
     XY_Tuple, XY_List, BoxList,
@@ -35,10 +27,16 @@ def assert_xy_list(xy_list: XY_List) -> None:
     assert all(is_xy(xy) for xy in xy_list)
 
 
+
+
+
 #class Area(PointList):     # El último conecta con el primero. También hay que ver como chequear si las lineas se cortan.
 #class Polygon(Area):
 #class Vector(GeomBase):
 #    pass
+
+
+
 
 class Point(GeomBase):
     """
@@ -71,7 +69,7 @@ class Point(GeomBase):
         assert_xy(xy)
         self.xy = xy
     
-    def translation(self, v: Vector) -> None:
+    def translation(self, v: VectorAux) -> None:
         """ FIXME"""
         self.xy = tuple([c + dc for (c, dc) in zip(self.xy, v)])
     
@@ -134,7 +132,7 @@ class Box(GeomBase):
         return (self.x1 <= point.x <= self.x2) and \
                (self.y1 <= point.y <= self.y2)
 
-    def translation(self, v: Vector) -> None:
+    def translation(self, v: VectorAux) -> None:
         # FIXME: POner un vector despues.
         dx, dy = v
         self.box[0] += dx

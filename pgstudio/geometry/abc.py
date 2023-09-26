@@ -8,7 +8,7 @@ from abc import ABC, abstractmethod, abstractproperty
 from pgstudio.geometry.typings import XY_Tuple
 
 from typing import NewType, Tuple
-Vector = NewType("vector", Tuple[int, int])
+VectorAux = NewType("vector", Tuple[int, int])
 
 class GeomBase(BaseModel, ABC):
     """
@@ -24,13 +24,14 @@ class GeomBase(BaseModel, ABC):
     def xy_ref(self) -> XY_Tuple: ...
     # TODO: Ver de agregar p_ref que devuelva un Point.
     @abstractmethod
-    def translation(self, v: Vector) -> None: ...
+    def translation(self, v: VectorAux) -> None: ...
     # IDEA: Puede serializar el input a un vector. Y haga los calculos.
     @abstractmethod
     def move(self, xy: XY_Tuple) -> None: ...
 
 
-# TODO
 #class CoordXY(BaseModel, ABC):
 #    pass
-#class Vector(CoordXY):
+
+#class VectorR2(GeomBase):
+#    xy

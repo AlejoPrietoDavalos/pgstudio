@@ -11,6 +11,8 @@ from typing import NewType
 BBoxList = NewType("[x,y,w,h]", list[int,int,int,int])
 
 from typing import Callable
+
+
 def if_mouse_up(fn: Callable) -> Callable:
     def wrapper(self: Clickable, *args, **kwargs):
         if self.is_mouse_up:
@@ -77,6 +79,7 @@ class BoxClickable(BBox, Clickable, ABC):
     @property
     def is_mouse_up(self) -> bool:
         return self.is_point_inside(pg.mouse.get_pos())
+
 
 class BoxPrinter(BoxClickable):
     def __init__(self, bbox: BBoxList):

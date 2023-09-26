@@ -9,7 +9,7 @@ from typing import Tuple
 class MousePos(Point):
     def __init__(self, xy: XY_Tuple):
         super().__init__(xy=xy)
-    
+      
     def update(self) -> None:
         """ Recalcula la posición actual del mouse."""
         self.x, self.y = self._get_mouse_pos()
@@ -30,7 +30,7 @@ class Mouse:
     def __init__(self):
         if not self._instanciated:
             self._instanciated = True
-            self.__pos = MousePos(x=0, y=0)
+            self.__pos = MousePos(xy=(0, 0))
 
     @property
     def pos(self) -> MousePos: return self.__pos
