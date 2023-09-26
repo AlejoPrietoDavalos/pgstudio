@@ -47,9 +47,11 @@ class Point(GeomBase):
     - FIXME: Ver como puedo hacer para que `xy` sea serializado y checkeado todo encapsulado.
     """
     xy: XY_Tuple
+    def __init__(self, xy: XY_Tuple):
+        super().__init__(xy=xy)
 
     @property
-    def xy_ref(self) -> XY_Tuple: self.x, self.y
+    def xy_ref(self) -> XY_Tuple: return self.x, self.y
     @property
     def x(self) -> CoordX: return self.xy[0]
     @property
@@ -60,13 +62,9 @@ class Point(GeomBase):
         if is_point(p):
             return p
         elif is_xy(p):
-            return Point.from_xy(p)
+            return Point(p)
         else:
             raise TypeError("Tipo incorrecto para `Point`.")
-    
-    @staticmethod
-    def from_xy(xy: XY_Tuple) -> Point:
-        return Point(xy=xy)
     
     def move(self, xy: XY_Tuple) -> None:
         """ FIXME"""
@@ -90,7 +88,9 @@ class Box(GeomBase):
     - xy_bl=(x1,y2) +--------+ xy_br=(x2,y2)
     """
     box: BoxList = Field(frozen=True)
-
+    def __init__(self, box: BoxList):
+        super().__init__(box=box)
+    
     #-----> `xy_ref` de referencia.
     @property
     def xy_ref(self) -> XY_Tuple: return self.xy_tl

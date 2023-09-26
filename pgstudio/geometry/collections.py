@@ -23,6 +23,9 @@ class PointList(MutableSequence, BaseModel):
     """
     p_list: P_List = Field(frozen=True)
 
+    def __init__(self, p_list: P_List):
+        super().__init__(p_list=p_list)
+    
     @validator("p_list", pre=True, each_item=True)
     def _point_serializer(cls, point: Point | XY_Tuple) -> Point:
         """ BUG: @validator, está deprecado, investigar `field_serializer`."""
@@ -42,7 +45,7 @@ class PointList(MutableSequence, BaseModel):
 
     @dispatch(SupportsIndex, tuple)
     def __setitem__(self, index: SupportsIndex, xy: XY_Tuple) -> None:
-        self.p_list.__setitem__(index, Point.from_xy(xy))
+        self.p_list.__setitem__(index, Point(xy))
     
     @dispatch(SupportsIndex, Point)
     def __setitem__(self, index: SupportsIndex, point: Point) -> None:
