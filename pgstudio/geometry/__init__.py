@@ -1,4 +1,6 @@
 from .typings import *
-from .vector import *
 
+# Objetos geométricos.
+from .vector import *
+from .box import *
 

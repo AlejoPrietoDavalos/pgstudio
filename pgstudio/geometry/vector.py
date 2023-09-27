@@ -10,9 +10,10 @@ from .checkers import assert_arr
 from typing import TypeVar, Type
 from .typings import CoordX, CoordY, CoordXY, Coords, XY_Tuple
 
-
-
 T_VectorNP = TypeVar("T_VectorNP", bound="VectorNP")
+T_VectorRn = TypeVar("T_VectorRn", bound="VectorRn")
+
+
 
 class VectorNP(ABC):
     """ Funcionalidades heredadas de Numpy."""
@@ -52,7 +53,6 @@ class VectorNP(ABC):
     def __div__(self, v: T_VectorNP) -> T_VectorNP: return self.create(self.arr / v.arr)
     def __eq__(self, v: T_VectorNP) -> bool: return self.arr == v.arr     # TESTEAR
 
-T_VectorRn = TypeVar("T_VectorRn", bound="VectorRn")
 
 class VectorRn(VectorNP):
 #    def __init__(self, arr: Coords, dtype=None):
@@ -92,9 +92,6 @@ class VectorR2Base(VectorRn, ABC):
     def xy(self) -> XY_Tuple: return self.x, self.y
     @property
     def xy_ref(self) -> XY_Tuple: return self.xy
-
-
-
 
 
 class VectorR2(VectorR2Base):
