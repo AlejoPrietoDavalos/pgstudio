@@ -5,14 +5,13 @@ import numpy as np
 
 from abc import ABC
 
-from pgstudio.geometry.checkers import assert_arr
+from .checkers import assert_arr
 
 from typing import TypeVar, Type
-from pgstudio.geometry.typings import CoordX, CoordY, CoordXY, Coords, XY_Tuple
+from .typings import CoordX, CoordY, CoordXY, Coords, XY_Tuple
 
 
 
-# TODO: Se podría crear una abstracción mayor para numpy array más genérico.
 T_VectorNP = TypeVar("T_VectorNP", bound="VectorNP")
 
 class VectorNP(ABC):
@@ -52,8 +51,6 @@ class VectorNP(ABC):
     def __mul__(self, v: T_VectorNP) -> T_VectorNP: return self.create(self.arr * v.arr)
     def __div__(self, v: T_VectorNP) -> T_VectorNP: return self.create(self.arr / v.arr)
     def __eq__(self, v: T_VectorNP) -> bool: return self.arr == v.arr     # TESTEAR
-
-
 
 T_VectorRn = TypeVar("T_VectorRn", bound="VectorRn")
 

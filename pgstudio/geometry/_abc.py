@@ -1,5 +1,6 @@
 """ ABC para la geometría."""
 from __future__ import annotations
+__all__ = ["GeomBase"]
 
 import numpy as np
 from pydantic import BaseModel
@@ -9,7 +10,7 @@ from abc import ABC, abstractmethod, abstractproperty
 from pgstudio.geometry.typings import XY_Tuple
 
 
-from . import VectorR2
+
 
 class GeomBase(BaseModel, ABC):
     """

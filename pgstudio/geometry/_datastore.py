@@ -2,7 +2,9 @@
 - TODO: Pasar todo a numpy, y ver si funciona en pygame.
 """
 from __future__ import annotations
-from pgstudio.geometry.abc import GeomBase, VectorAux
+__all__ = []
+
+from pgstudio.geometry._abc import GeomBase
 
 from pydantic import BaseModel, Field
 
@@ -69,7 +71,7 @@ class Point(GeomBase):
         assert_xy(xy)
         self.xy = xy
     
-    def translation(self, v: VectorAux) -> None:
+    def translation(self, v) -> None:
         """ FIXME"""
         self.xy = tuple([c + dc for (c, dc) in zip(self.xy, v)])
     
@@ -132,7 +134,7 @@ class Box(GeomBase):
         return (self.x1 <= point.x <= self.x2) and \
                (self.y1 <= point.y <= self.y2)
 
-    def translation(self, v: VectorAux) -> None:
+    def translation(self, v) -> None:
         # FIXME: POner un vector despues.
         dx, dy = v
         self.box[0] += dx

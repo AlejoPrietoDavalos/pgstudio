@@ -1,6 +1,7 @@
 from __future__ import annotations
+__all__ = []
 
-from pgstudio.geometry.datastore import Point, XY_Tuple
+from pgstudio.geometry._datastore import Point, XY_Tuple
 
 from collections.abc import MutableSequence, Iterable
 
