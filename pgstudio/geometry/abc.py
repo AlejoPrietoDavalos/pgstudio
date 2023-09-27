@@ -1,14 +1,15 @@
 """ ABC para la geometría."""
 from __future__ import annotations
 
+import numpy as np
 from pydantic import BaseModel
 
 from abc import ABC, abstractmethod, abstractproperty
 
 from pgstudio.geometry.typings import XY_Tuple
 
-from typing import NewType, Tuple
-VectorAux = NewType("vector", Tuple[int, int])
+
+from . import VectorR2
 
 class GeomBase(BaseModel, ABC):
     """
@@ -22,16 +23,15 @@ class GeomBase(BaseModel, ABC):
     # Ver como desagregar de Point, que sean cosas distintas pero relacionadas.
     @abstractproperty
     def xy_ref(self) -> XY_Tuple: ...
-    # TODO: Ver de agregar p_ref que devuelva un Point.
-    @abstractmethod
-    def translation(self, v: VectorAux) -> None: ...
+    #@property
+    #def p_ref(self) -> Vector: return VectorR2(self.xy_ref)
+    #@abstractmethod
+    #def translation(self, v: VectorAux) -> None: ...
     # IDEA: Puede serializar el input a un vector. Y haga los calculos.
     @abstractmethod
     def move(self, xy: XY_Tuple) -> None: ...
 
 
-#class CoordXY(BaseModel, ABC):
-#    pass
 
-#class VectorR2(GeomBase):
-#    xy
+
+
