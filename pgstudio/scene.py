@@ -45,12 +45,12 @@ class Scene(Window, ABC):
         return self._is_running
 
     @abstractmethod
-    def __enter__(self):
+    def __enter__(self) -> None:
         """ Se ejecuta al `entrar` en la escena. """
         self.start()
     
     @abstractmethod
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
         """ Se ejecuta al `salir` de la escena."""
         ...
     
