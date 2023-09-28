@@ -1,30 +1,23 @@
 from __future__ import annotations
 __all__ = ["VectorR2"]
 
+from .np_array import ArrNP
 import numpy as np
 
 from abc import ABC
 
-from .checkers import assert_arr
-
 from typing import TypeVar, Type
 from .typings import CoordX, CoordY, CoordXY, Coords, XY_Tuple
 
-T_VectorNP = TypeVar("T_VectorNP", bound="VectorNP")
-T_VectorRn = TypeVar("T_VectorRn", bound="VectorRn")
 
 
+#T_VectorNP = TypeVar("T_VectorNP", bound="VectorNP")
 
-class VectorNP(ABC):
+class VectorNP(ArrNP):
     """ Funcionalidades heredadas de Numpy."""
     def __init__(self, arr: Coords, dtype: np.dtype = None):
         assert len(arr.shape) == 1, "Un vector tiene dimensión 1."
-        self._arr: Coords = np.array(arr, dtype = dtype)
-    
-    @classmethod
-    def create(cls: Type[T_VectorNP], arr: Coords, dtype: np.dtype = None) -> T_VectorNP:
-        """ Crea una nueva instancia de vector."""
-        return cls(arr, dtype)
+        super().__init__(arr=arr, dtype=dtype)
     
     @property
     def arr(self) -> Coords:
@@ -33,31 +26,14 @@ class VectorNP(ABC):
 
     @arr.setter
     def arr(self, new_arr: Coords) -> None:
-        assert_arr(new_arr)
+        isinstance(new_arr, np.ndarray)
         self._arr = np.array(new_arr)
-    
-    @property
-    def dtype(self) -> np.dtype:
-        return self.arr.dtype
-    
-    @property
-    def dim(self) -> int:
-        return len(self.arr)
 
-    def __str__(self) -> str: return self.arr.__str__()
-    def __repr__(self) -> str: return self.arr.__repr__()
 
-    def __add__(self, v: T_VectorNP) -> T_VectorNP: return self.create(self.arr + v.arr)
-    def __sub__(self, v: T_VectorNP) -> T_VectorNP: return self.create(self.arr - v.arr)
-    def __mul__(self, v: T_VectorNP) -> T_VectorNP: return self.create(self.arr * v.arr)
-    def __div__(self, v: T_VectorNP) -> T_VectorNP: return self.create(self.arr / v.arr)
-    def __eq__(self, v: T_VectorNP) -> bool: return self.arr == v.arr     # TESTEAR
 
+T_VectorRn = TypeVar("T_VectorRn", bound="VectorRn")
 
 class VectorRn(VectorNP):
-#    def __init__(self, arr: Coords, dtype=None):
-#        super().__init__(arr=arr, dtype=dtype)
-
     def translation(self, v: T_VectorRn) -> None:
         self.arr += v.arr
 
