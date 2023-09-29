@@ -1,7 +1,7 @@
 from __future__ import annotations
 __all__ = ["ArrNP"]
 
-#from abc import ABC
+from abc import ABC, abstractproperty
 
 import numpy as np
 
@@ -10,7 +10,7 @@ from typing import TypeVar, Type
 
 T_ArrNP = TypeVar("T_ArrNP", bound="ArrNP")
 
-class ArrNP:
+class ArrNP(ABC):
     def __init__(self, arr: np.ndarray, dtype: np.dtype = None):
         self._arr: np.ndarray = np.array(arr, dtype=dtype)
     
@@ -19,10 +19,11 @@ class ArrNP:
         """ Crea una nueva instancia de array."""
         return cls(arr, dtype)
     
-    @property
+    @abstractproperty
     def arr(self) -> np.ndarray:
         return self._arr
     
+    @abstractproperty
     @arr.setter
     def arr(self, new_arr: np.ndarray) -> None:
         isinstance(new_arr, np.ndarray)
