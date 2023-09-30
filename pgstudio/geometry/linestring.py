@@ -7,6 +7,6 @@ from .abc import ShpGeomBase
 
 from .typings import T_Geometry
 
-class LineStringBase(ShpGeomBase[shp.LineString]):
+class LineString(ShpGeomBase[shp.LineString]):
     def __init__(self, line_geom: T_Geometry):
         super().__init__(geom=line_geom)

@@ -7,3 +7,4 @@ from .abc import *
 from .point import *
 from .linestring import *
 from .polygon import *
+from .box import *
