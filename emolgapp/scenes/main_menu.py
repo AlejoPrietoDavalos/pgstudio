@@ -1,4 +1,4 @@
-from pgstudio.scene import Scene
+from pgstudio.scene import SceneBase
 from pgstudio.ui.abc import BoxDrawable, BoxPrinter
 
 import pygame as pg
@@ -6,7 +6,7 @@ import pygame as pg
 class ScenesNames:
     main_menu: str = "main_menu"
 
-class MainMenu(Scene):
+class MainMenu(SceneBase):
     def __init__(self):
         super().__init__(ScenesNames.main_menu)
         self.btn = BoxDrawable([0,100,300,200], (50,50,50))

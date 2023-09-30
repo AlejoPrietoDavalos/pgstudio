@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pgstudio.window import Window
+from pgstudio.display import Window
 
 import pygame as pg
 

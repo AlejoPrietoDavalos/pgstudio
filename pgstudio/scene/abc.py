@@ -1,4 +1,6 @@
 from __future__ import annotations
+__all__ = ["SceneBase"]
+
 from abc import ABC, abstractmethod
 
 import pygame as pg
@@ -6,8 +8,8 @@ from pygame.event import Event
 
 from functools import cached_property
 
-from pgstudio.clock import ClockPGA
-from pgstudio.window import Window
+from .clock import Clock
+from pgstudio.display import Window
 from pgstudio.ui.widget import BtnsScene
 
 
@@ -16,7 +18,7 @@ from typing import NewType, Dict, List
 
 SceneName = NewType("scene_name", str)
 
-class Scene(Window, ABC):
+class SceneBase(Window, ABC):
     """
     Clase abstracta para el manejo de `Scenes`.
 
@@ -102,16 +104,7 @@ class Scene(Window, ABC):
 
 
 
-
-
-
-
-
-
-
-
-
-
+'''
 
 class DictScenes(Dict[SceneName, Scene]):
     """ `current_name` (str): """
@@ -157,9 +150,14 @@ class DictScenes(Dict[SceneName, Scene]):
         """ TODO: Eventualmente podría ser una lista, y que sea varabiale."""
         assert scene_name in self.SCENES_PERMITIDAS, "Scene no está dentro de las permitidas."
 
-
 class Scenes(DictScenes):
     pass
+'''
+
+
+
+
+
 
 
 

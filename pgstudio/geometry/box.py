@@ -53,3 +53,23 @@ class BBox:     # Esto quizás se podría pasar a pydantic, ver.
         return cls(pt_ref, box[2], box[3])
 
     # TODO: Agregar repr y str.
+
+
+    # @property
+    # def xy_tl(self) -> XY_Tuple: return self.x1, self.y1
+    # @property
+    # def xy_tr(self) -> XY_Tuple: return self.x2, self.y1
+    # @property
+    # def xy_br(self) -> XY_Tuple: return self.x2, self.y2
+    # @property
+    # def xy_bl(self) -> XY_Tuple: return self.x1, self.y2
+
+    #-----> `Point` de las 4 esquinas del rectángulo.
+    # @property
+    # def p_tl(self) -> Point: return Point(xy=self.xy_tl)
+    # @property
+    # def p_tr(self) -> Point: return Point(xy=self.xy_tr)
+    # @property
+    # def p_br(self) -> Point: return Point(xy=self.xy_br)
+    # @property
+    # def p_bl(self) -> Point: return Point(xy=self.xy_bl)

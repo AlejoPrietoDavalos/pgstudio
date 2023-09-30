@@ -1,7 +1,7 @@
 import pygame as pg
 
 
-class ClockPGA:
+class Clock:
     FPS_ALLOWED = frozenset({30, 60})
 
     def __init__(self, fps: int = 60):

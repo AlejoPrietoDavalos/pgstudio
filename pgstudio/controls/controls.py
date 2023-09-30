@@ -1,4 +1,4 @@
-from pgstudio.geometry._datastore import Point, XY_Tuple
+from pgstudio.geometry.typings import Point, XY_Tuple
 
 import pygame as pg
 

@@ -1,3 +1,6 @@
+from __future__ import annotations
+__all__ = ["Window"]
+
 import pygame as pg
 from pygame.surface import Surface
 
