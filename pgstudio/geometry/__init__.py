@@ -1,6 +1,4 @@
-from .typings import *
+""" Módulo para controlar las geometrías del juego. Por lo pronto se usará `shapely`."""
+import shapely.geometry as shp
 
-# Objetos geométricos.
-from .vector import *
-from .box import *
-
+from .point import *
