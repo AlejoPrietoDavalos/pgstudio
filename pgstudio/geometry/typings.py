@@ -22,3 +22,4 @@ Height = NewType("widht", np.number)    # Ver como convertir a No-Negativo.
 
 # Estructuras.
 BoxList = NewType("[x1,y1,w,h]", list[CoordX, CoordY, Width, Height])
+BoxArr = NewType("[x1,y1,w,h]", np.ndarray[np.number])

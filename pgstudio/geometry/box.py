@@ -1,12 +1,31 @@
 from __future__ import annotations
 __all__ = ["Box"]
 
+from .np_array import ArrNP
 
-from .typings import CoordX, CoordY, Width, Height, BoxList, XY_Tuple
+import numpy as np
+
+from abc import ABC
+
+from .typings import CoordX, CoordY, Width, Height, BoxList, XY_Tuple, BoxArr
 
 
 
-class Box:
+
+class BoxBase(ArrNP, ABC):
+    def __init__(self, arr: BoxArr, dtype: np.dtype = None):
+        super().__init__(arr=arr, dtype=dtype)
+
+    @property
+    def arr(self) -> BoxArr:
+        return self._arr
+    
+    @arr.setter
+    def arr(self, arr: BoxArr) -> None:
+        assert len(arr)
+        self._arr = None
+
+class Box(BoxBase):
     """
     - box (np.ndarray[x1, y1, w, h])
 
@@ -14,8 +33,8 @@ class Box:
     - xy_tl=(x1,y1) +--------+ xy_tr=(x2,y1)
     - xy_bl=(x1,y2) +--------+ xy_br=(x2,y2)
     """
-    def __init__(self, box: BoxList):
-        self._box = box.copy()
+    def __init__(self, arr: BoxArr, dtype: np.dtype = None):
+        super().__init__(arr=arr, dtype=dtype)
     
     #-----> `xy_ref` de referencia.
     @property
@@ -23,13 +42,13 @@ class Box:
         return self.xy_tl
 
     @property
-    def x1(self) -> CoordX: return self._box[0]
+    def x1(self) -> CoordX: return self.arr[0]
     @property
-    def y1(self) -> CoordY: return self._box[1]
+    def y1(self) -> CoordY: return self.arr[1]
     @property
-    def w(self) -> Width: return self._box[2]
+    def w(self) -> Width: return self.arr[2]
     @property
-    def h(self) -> Height: return self._box[3]
+    def h(self) -> Height: return self.arr[3]
     @property
     def x2(self) -> CoordX: return self.x1 + self.w
     @property

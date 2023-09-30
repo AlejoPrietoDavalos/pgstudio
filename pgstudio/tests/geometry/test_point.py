@@ -1,4 +1,4 @@
-from pgstudio.geometry.datastore import Point
+from pgstudio.geometry._datastore import Point
 
 class TestPointHowInstanciate:
     def test_xy(self):
