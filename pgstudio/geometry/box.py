@@ -13,9 +13,9 @@ from .typings import BoxList, CoordX, CoordY, Width, Height, CoordsXY
 def xywh_to_box(x: CoordX, y: CoordY, w: Width, h: Height) -> BoxList:
     return [(x, y), (x+w, y), (x+w, y+h), (x, y+h)]
 
-def wh_to_box_list(w: Width, h: Height) -> BoxList:
+def wh_to_box(w: Width, h: Height) -> BoxList:
     """ Caja centrada en el origen de dimensiones `w` y `h`."""
-    return [(0,0), (w,0), (w,h), (0,h)]
+    return xywh_to_box(0, 0, w, h)
 
 
 T_BBox = TypeVar("T_BBox", bound="BBox")
@@ -34,7 +34,7 @@ class BBox:     # Esto quizás se podría pasar a pydantic, ver.
     def __init__(self, pt_geom: Point, w: Width, h: Height):
         assert isinstance(pt_geom, Point)
         self.pt_ref = pt_geom
-        self.box = Polygon(shp.Polygon(wh_to_box_list(w=w, h=h)))
+        self.box = Polygon(shp.Polygon(wh_to_box(w=w, h=h)))
         self.w = w
         self.h = h
     
