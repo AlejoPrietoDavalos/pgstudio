@@ -1,10 +1,18 @@
+"""
+- TODO: Implementar una clase para registrar las escenas que
+presuntamente el usuario podría ingresar, y cuales no. Me imagino
+una especie diccionario, key=SceneName, y valor, la clase correspondiente a la escena.
+
+- TODO: Internamente las escenas tienen que implementar un método para saber como
+cargar los elementos que contiene, ver de que forma se podría hacer.
+"""
 from __future__ import annotations
 __all__ = ["SceneBase"]
 
 from abc import ABC, abstractmethod
 
 import pygame as pg
-from pygame.event import Event
+
 
 from pgstudio.display import Window, T_Win
 #from pgstudio.ui.widget import BtnsScene
@@ -32,10 +40,6 @@ class SceneBase(ABC):
         self._is_running = False
 
     @property
-    def win(self) -> T_Win:
-        return Window.win
-
-    @property
     def name(self) -> SceneName:
         return self.__name
 
@@ -58,7 +62,7 @@ class SceneBase(ABC):
         """ Como rellenar el fondo. Por default se pinta de negro.
         - TODO: Quizás se podría crear un objeto `Background` que
         se encargue del fondo de la escena."""
-        self.win.fill("black")
+        Window.win.fill("black")
     
     @abstractmethod
     def events(self) -> None:
@@ -89,8 +93,8 @@ class SceneBase(ABC):
         with self:
             while self.is_running:
                 self.fill()
-                self.main()
                 self.events()
+                self.main()
                 Window.refresh()
 
 
