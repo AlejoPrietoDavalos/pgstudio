@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from pgstudio.display import Window, WinRes
+from pgstudio.display import Window, T_WinRes
 
 import pygame as pg
 
@@ -12,17 +12,19 @@ import pygame as pg
 
 
 class PyGameApp(ABC):
-    def __init__(self, app_name: str, resolution: WinRes):
+    def __init__(self, app_name: str, resolution: T_WinRes, fps: int):
         pg.init()
-        pg.display.set_caption(app_name)
-
         self._is_running = True
-        self.window = Window(resolution=resolution)
+        self.window = Window(
+            app_name = app_name,
+            resolution = resolution,
+            fps = fps
+        )
     
-    @property
-    def win(self) -> pg.Surface:
-        """ FIXME: Hace falta??."""
-        return self.window.win
+    #@property
+    #def win(self) -> pg.Surface:
+    #    """ FIXME: Hace falta??."""
+    #    return Window.win
 
     @property
     def is_running(self) -> bool:

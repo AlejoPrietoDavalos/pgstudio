@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 import pygame as pg
 from pygame.event import Event
 
-from pgstudio.display import Window, Clock, Win
+from pgstudio.display import Window, T_Win
 #from pgstudio.ui.widget import BtnsScene
 
 
@@ -27,15 +27,12 @@ class SceneBase(ABC):
     - FIXME `events`: Revisa los eventos.
     - `main`: Loop principal de la escena.
     """
-    clock = pg.time.Clock()     # ClockPGA(60)
-    fps = 60
-    """ Abstract class para `Scene` de pygame."""
     def __init__(self, name: SceneName):
         self.__name = name
         self._is_running = False
 
     @property
-    def win(self) -> Win:
+    def win(self) -> T_Win:
         return Window.win
 
     @property
@@ -58,7 +55,9 @@ class SceneBase(ABC):
     
     @abstractmethod
     def fill(self) -> None:
-        """ Como rellenar el fondo. Por default se pinta de negro."""
+        """ Como rellenar el fondo. Por default se pinta de negro.
+        - TODO: Quizás se podría crear un objeto `Background` que
+        se encargue del fondo de la escena."""
         self.win.fill("black")
     
     @abstractmethod
@@ -89,11 +88,10 @@ class SceneBase(ABC):
         - TODO: Ver de retornar un objeto que guarde el código de respuesta."""
         with self:
             while self.is_running:
+                self.fill()
                 self.main()
                 self.events()
-                self.clock.tick(self.fps)
-                pg.display.update()
-                self.fill()
+                Window.refresh()
 
 
 

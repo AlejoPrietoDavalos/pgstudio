@@ -1,10 +1,9 @@
 from __future__ import annotations
-__all__ = ["Win", "WinRes", "T_fps"]
+__all__ = ["T_Win", "T_WinRes"]
 
 import pygame as pg
 
 from typing import NewType
 
-Win = NewType("win", pg.Surface)
-WinRes = NewType("win_resolution", tuple[int, int])
-T_fps = NewType("fps", int)
+T_Win = NewType("win", pg.Surface)
+T_WinRes = NewType("win_res", tuple[int, int])
