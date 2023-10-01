@@ -15,8 +15,8 @@ class Widget(ABC):
     def on_click(self):
         pass
 
-class Widget:
-    pass
+#class Widget:
+#    pass
 
 
 # -----Revisar

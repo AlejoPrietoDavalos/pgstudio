@@ -6,11 +6,8 @@ from abc import ABC, abstractmethod
 import pygame as pg
 from pygame.event import Event
 
-from functools import cached_property
-
-from .clock import Clock
-from pgstudio.display import Window
-from pgstudio.ui.widget import BtnsScene
+from pgstudio.display import Window, Clock, Win
+#from pgstudio.ui.widget import BtnsScene
 
 
 from typing import NewType, Dict, List
@@ -18,7 +15,7 @@ from typing import NewType, Dict, List
 
 SceneName = NewType("scene_name", str)
 
-class SceneBase(Window, ABC):
+class SceneBase(ABC):
     """
     Clase abstracta para el manejo de `Scenes`.
 
@@ -36,7 +33,10 @@ class SceneBase(Window, ABC):
     def __init__(self, name: SceneName):
         self.__name = name
         self._is_running = False
-        self.btns = BtnsScene()
+
+    @property
+    def win(self) -> Win:
+        return Window.win
 
     @property
     def name(self) -> SceneName:
@@ -91,7 +91,7 @@ class SceneBase(Window, ABC):
             while self.is_running:
                 self.main()
                 self.events()
-                self.clock.tick(self.fps)   # TODO: Eventualmente estará envuelta en otra clase.
+                self.clock.tick(self.fps)
                 pg.display.update()
                 self.fill()
 

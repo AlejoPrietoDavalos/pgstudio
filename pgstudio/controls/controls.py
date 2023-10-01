@@ -1,4 +1,4 @@
-from pgstudio.geometry.typings import Point, XY_Tuple
+from pgstudio.geometry import Point, XY_Tuple
 
 import pygame as pg
 
@@ -9,7 +9,7 @@ from typing import Tuple
 class MousePos(Point):
     def __init__(self, xy: XY_Tuple):
         super().__init__(xy=xy)
-      
+    
     def update(self) -> None:
         """ Recalcula la posición actual del mouse."""
         self.x, self.y = self._get_mouse_pos()

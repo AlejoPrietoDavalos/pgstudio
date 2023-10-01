@@ -2,26 +2,21 @@ from __future__ import annotations
 __all__ = ["Window"]
 
 import pygame as pg
-from pygame.surface import Surface
 
-from abc import ABC, abstractmethod
+from .typings import Win, WinRes
 
-from typing import NewType
-WinRes = NewType("win_resolution", tuple[int, int])
 
-class Window(ABC):
-    win: Surface
+class Window:
+    """ FIXME: Encapsular `win` y `resolution`."""
+    _instance = None
+    win: Win
     resolution: WinRes
-    
-    @classmethod
-    def set_win(cls, resolution: WinRes) -> None:
-        Window.win = pg.display.set_mode(resolution)
-        Window.resolution = resolution
 
-    # @classmethod
-    # def pix2prop(cls, pix: int) -> float: return cls.resolution
-    # @classmethod
-    # def prop2pix(): pass
+    def __new__(cls, resolution: WinRes):
+        if not isinstance(cls._instance, cls):
+            cls._instance = super(Window, cls).__new__(cls)
+            cls.win = pg.display.set_mode(resolution)
+            cls.resolution = resolution
+        return cls._instance
 
-
-
+    #def __init__(self)
