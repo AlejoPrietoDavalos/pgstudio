@@ -8,6 +8,12 @@
 - Puede haber un gestor de widgets que se encargue de hacer las peticiones.
 - Objeto multimedia o similar. Que tenga las rutas y forma de acceder a los paths de archivos en el sistema.
 
+### ideas
+- EventManager
+- Eventos personalizados (combinación de eventos?)
+- Prioridad de eventos.
+- Clase base de widget que contenga a Window.win, quizas `Drawable`
+
 ---
 
 ### EmolgApp
