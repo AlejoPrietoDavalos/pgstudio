@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from pgstudio.display import Window, T_WinRes
 
-import pygame as pg
+
 
 
 #from enum import Enum
@@ -11,20 +11,19 @@ import pygame as pg
 #    PLAYING
 
 
-class PyGameApp(ABC):
+class GameApp(ABC):
+    """ Objeto principal del juego.
+
+    - FIXME: Esta clase no me convence, modificar. No hace nada relevante,
+    hay que ver como implementar el mecanismo de inicio de juego.
+    """
     def __init__(self, app_name: str, resolution: T_WinRes, fps: int):
-        pg.init()
         self._is_running = True
         self.window = Window(
             app_name = app_name,
             resolution = resolution,
             fps = fps
         )
-    
-    #@property
-    #def win(self) -> pg.Surface:
-    #    """ FIXME: Hace falta??."""
-    #    return Window.win
 
     @property
     def is_running(self) -> bool:
