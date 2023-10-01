@@ -3,12 +3,10 @@ from pgstudio.ui.abc import BoxDrawable, BoxPrinter
 
 import pygame as pg
 
-class ScenesNames:
-    main_menu: str = "main_menu"
 
 class MainMenu(SceneBase):
     def __init__(self):
-        super().__init__(ScenesNames.main_menu)
+        super().__init__("main_menu")
         #self.btn = BoxDrawable([0,100,300,200], (50,50,50))
         #self.printer = BoxPrinter([0,0,100,100])
     
