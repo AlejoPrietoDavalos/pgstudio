@@ -1,11 +1,11 @@
 import pgstudio as pgs
-from pgstudio.config import GameConfig
+from pgstudio.config import ConfigApp
 
 from emolgapp.scenes.main_menu import MainMenu
 
 class EmolgApp(pgs.GameApp):
-    def __init__(self, cfg: GameConfig):
-        super().__init__(cfg=cfg)
+    def __init__(self, cfg_app: ConfigApp):
+        super().__init__(cfg_app=cfg_app)
     
     def run_app(self) -> None:
         scene = MainMenu()

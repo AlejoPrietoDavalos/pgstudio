@@ -1,11 +1,11 @@
-__all__ = ["GameConfig"]
+__all__ = ["ConfigApp"]
 
 from pydantic import BaseModel, Field, ConfigDict
 
 from pgstudio.display import WinRes
 
 
-class GameConfig(BaseModel):
+class ConfigApp(BaseModel):
     app_name: str = Field(frozen=True)
     res: WinRes
     fps: int = 60
