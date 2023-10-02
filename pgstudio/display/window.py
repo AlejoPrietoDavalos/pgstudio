@@ -3,7 +3,6 @@ __all__ = ["Window"]
 
 import pygame as pg
 
-from pgstudio.config import GameConfig
 from .clock import Clock
 
 from .typings import T_Win, WinRes
@@ -13,19 +12,19 @@ class Window:
     _instance = None
     win: T_Win
     app_name: str
-    resolution: WinRes
+    res: WinRes
     clock: Clock = None
 
-    def __new__(cls, cfg: GameConfig):
+    def __new__(cls, app_name: str, res: WinRes, fps: int):
         if not isinstance(cls._instance, cls):
             cls._instance = super(Window, cls).__new__(cls)
-            cls.win = pg.display.set_mode(cfg.res)
+            cls.win = pg.display.set_mode(res)
             
-            cls.app_name = cfg.app_name
-            pg.display.set_caption(cfg.app_name)
+            cls.app_name = app_name
+            pg.display.set_caption(app_name)
 
-            cls.resolution = cfg.res
-            cls.clock = Clock(fps=cfg.fps)
+            cls.res = res
+            cls.clock = Clock(fps=fps)
         return cls._instance
 
     @classmethod

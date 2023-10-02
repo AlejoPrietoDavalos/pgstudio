@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from pgstudio.display import Window
-from pgstudio.config import GameConfig
+from pgstudio.config import ConfigApp
 
 #from enum import Enum
 #class StateApp(Enum):
@@ -15,10 +15,15 @@ class GameApp(ABC):
     - FIXME: Esta clase no me convence, modificar. No hace nada relevante,
     hay que ver como implementar el mecanismo de inicio de juego.
     """
-    def __init__(self, cfg: GameConfig):
-        self.cfg = cfg
+    def __init__(self, cfg_app: ConfigApp):
+        self.cfg = cfg_app
+        self.window = Window(
+            app_name = self.cfg.app_name,
+            res = self.cfg.res,
+            fps = self.cfg.fps
+        )
+        
         self._is_running = True
-        self.window = Window(cfg)
 
     @property
     def is_running(self) -> bool:
