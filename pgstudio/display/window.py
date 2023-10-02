@@ -1,31 +1,31 @@
 from __future__ import annotations
 __all__ = ["Window"]
 
-from .clock import Clock
-
 import pygame as pg
 
-from .typings import T_Win, T_WinRes
+from pgstudio.config import GameConfig
+from .clock import Clock
 
+from .typings import T_Win, WinRes
 
 class Window:
     """ FIXME: Encapsular."""
     _instance = None
     win: T_Win
     app_name: str
-    resolution: T_WinRes
+    resolution: WinRes
     clock: Clock = None
 
-    def __new__(cls, app_name: str, resolution: T_WinRes, fps: int):
+    def __new__(cls, cfg: GameConfig):
         if not isinstance(cls._instance, cls):
             cls._instance = super(Window, cls).__new__(cls)
-            cls.win = pg.display.set_mode(resolution)
+            cls.win = pg.display.set_mode(cfg.res)
             
-            cls.app_name = app_name
-            pg.display.set_caption(app_name)
+            cls.app_name = cfg.app_name
+            pg.display.set_caption(cfg.app_name)
 
-            cls.resolution = resolution
-            cls.clock = Clock(fps=fps)
+            cls.resolution = cfg.res
+            cls.clock = Clock(fps=cfg.fps)
         return cls._instance
 
     @classmethod
