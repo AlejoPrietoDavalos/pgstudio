@@ -2,18 +2,43 @@
 from __future__ import annotations
 __all__ = ["Widget"]
 
+from pgstudio.ui.abc.base import VisualElem
+
 from abc import ABC, abstractmethod
 
-class Widget(ABC):
+
+
+
+class Widget(VisualElem, ABC):
     """ Clase abstracta para widgets."""
-
     @abstractmethod
-    def is_mouse_up(self):
-        pass
-
+    def draw(self) -> None: ...
     @abstractmethod
-    def on_click(self):
-        pass
+    def update(self) -> None: ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
