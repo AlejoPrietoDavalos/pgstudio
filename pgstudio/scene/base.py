@@ -21,7 +21,7 @@ from pgstudio.display import Window, T_Win
 from typing import NewType, Dict, List
 
 
-SceneName = NewType("scene_name", str)
+SceneName = str
 
 class SceneBase(ABC):
     """
